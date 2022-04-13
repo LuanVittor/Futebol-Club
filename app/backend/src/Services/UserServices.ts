@@ -7,20 +7,15 @@ export default class UserService {
   private model = User;
   private jwt = new Jwt()
 
-  private async loginValid(payload: loginPayload) {
+  public async login(payload: loginPayload) {
     const result = await this.model.findOne({ where: { email: payload.email } });
     if (!result) {
-      throw new Error('Incorrect email or password');
+      return { error: 'Incorrect email or password', code: 401};
     }
     const validPassword = await bcrypt.compare(payload.password, result.password);
     if (!validPassword) {
-      throw new Error('Incorrect email or password');
+      return { error: 'Incorrect email or password', code: 401};
     }
-    return result
-  }
-
-  public async login(payload: loginPayload) {
-    const result = await this.loginValid(payload);
     const { id, username, role, email } = result;
     const token = await this.jwt.generateJwt({ id, username, role, email });
     return {
