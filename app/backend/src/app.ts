@@ -1,13 +1,15 @@
+import bodyParser = require('body-parser');
 import * as express from 'express';
+import validLogin from './middlewares/validateLogin';
 
 class App {
   public app: express.Express;
-  // ...
+
 
   constructor() {
-    // ...
+    this.app = express();
     this.config();
-    // ...
+    this.app.post('/login', validLogin, )
   }
 
   private config():void {
@@ -18,13 +20,11 @@ class App {
       next();
     };
 
-    this.app.use(accessControl);
-    // ...
+    this.app.use(accessControl, bodyParser.json());
   }
 
-  // ...
   public start(PORT: string | number):void {
-    // ...
+    this.app.listen(PORT, () => console.log(`app rodando ${PORT}`));
   }
 }
 
