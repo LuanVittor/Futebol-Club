@@ -9,16 +9,14 @@ export interface Data {
 }
 
 export default class Jwt {
-  jwt = jwt;
-
   static senha = async () => rf.readFile('jwt.evaluation.key', 'utf-8');
 
-  async generateJwt(obj: Data) {
+  static async generateJwt(obj: Data) {
     const secret = await Jwt.senha();
-    const jwt = this.jwt.sign(obj, secret, {
+    const test = jwt.sign(obj, secret, {
       expiresIn: '30d',
       algorithm: 'HS256',
     });
-    return jwt;
+    return test;
   }
 }

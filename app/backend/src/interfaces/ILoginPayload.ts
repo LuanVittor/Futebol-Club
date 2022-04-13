@@ -1,6 +1,6 @@
-interface loginPayload {
-    email: string,
-    password: string
+interface LoginPayload {
+  email: string,
+  password: string
 }
 
-export default loginPayload;
+export default LoginPayload;

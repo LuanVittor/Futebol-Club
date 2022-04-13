@@ -1,15 +1,17 @@
 import bodyParser = require('body-parser');
 import * as express from 'express';
+import UserController from './Controllers/UserController';
 import validLogin from './middlewares/validateLogin';
+
+const userController = new UserController();
 
 class App {
   public app: express.Express;
 
-
   constructor() {
     this.app = express();
     this.config();
-    this.app.post('/login', validLogin, )
+    this.app.post('/login', validLogin, userController.Login);
   }
 
   private config():void {
