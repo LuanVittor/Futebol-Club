@@ -26,7 +26,7 @@ class App {
   }
 
   public start(PORT: string | number):void {
-    this.app.listen(PORT, () => console.log(`app rodando ${PORT}`));
+    this.app.listen(PORT, () => console.log(`App esta rodando na porta ${PORT}`));
   }
 }
 
