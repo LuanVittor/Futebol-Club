@@ -11,12 +11,12 @@ export default class MatchesService {
         {
           model: Teams,
           as: 'teamHome',
-          attributes: ['teamName'],
+          attributes: [['team_name', 'teamName']],
         },
         {
           model: Teams,
           as: 'teamAway',
-          attributes: ['teamName'],
+          attributes: [['team_name', 'teamName']],
         },
       ],
     });
