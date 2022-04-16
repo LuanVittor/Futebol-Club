@@ -1,10 +1,12 @@
 import bodyParser = require('body-parser');
 import * as express from 'express';
+import TeamController from './Controllers/TeamsController';
 import UserController from './Controllers/UserController';
 import validLogin from './middlewares/validateLogin';
 import hasToken from './middlewares/validateToken';
 
 const userController = new UserController();
+const teamController = new TeamController();
 
 class App {
   public app: express.Express;
@@ -14,6 +16,8 @@ class App {
     this.config();
     this.app.post('/login', validLogin, userController.Login);
     this.app.get('/login/validate', hasToken);
+    this.app.get('/teams', teamController.getAllTeams);
+    this.app.get('/teams/:id', teamController.getTeamById);
   }
 
   private config():void {
