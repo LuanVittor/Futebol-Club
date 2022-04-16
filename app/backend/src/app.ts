@@ -2,6 +2,7 @@ import bodyParser = require('body-parser');
 import * as express from 'express';
 import UserController from './Controllers/UserController';
 import validLogin from './middlewares/validateLogin';
+import hasToken from './middlewares/validateToken';
 
 const userController = new UserController();
 
@@ -12,6 +13,7 @@ class App {
     this.app = express();
     this.config();
     this.app.post('/login', validLogin, userController.Login);
+    this.app.get('/login/validate', hasToken);
   }
 
   private config():void {
