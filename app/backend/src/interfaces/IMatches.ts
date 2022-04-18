@@ -8,12 +8,3 @@ export default interface IMatches extends Matches {
     teamName: string
   }
 }
-
-// interface Match {
-//   id: number;
-//   homeTeam: number;
-//   homeTeamGoals: number;
-//   awayTeam: number;
-//   awayTeamGoals: number;
-//   inProgress: boolean;
-// }
