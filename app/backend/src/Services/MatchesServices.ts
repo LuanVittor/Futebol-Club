@@ -45,18 +45,18 @@ export default class MatchesService {
   }
 
   public async createMatch(objToCreate: ICreateMatch) {
-    const { homeTeam, awayTeam } = objToCreate;
-
-    if (homeTeam === awayTeam) {
-      return {
-        error: {
-          message: 'It is not possible to create a match with two equal teams',
-        },
-        code: 401,
-      };
-    }
-
     try {
+      const { homeTeam, awayTeam } = objToCreate;
+
+      if (homeTeam === awayTeam) {
+        return {
+          error: {
+            message: 'It is not possible to create a match with two equal teams',
+          },
+          code: 401,
+        };
+      }
+
       const result = await this.model.create(objToCreate);
       return { result };
     } catch (e) {
