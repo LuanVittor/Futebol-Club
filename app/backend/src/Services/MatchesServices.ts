@@ -72,4 +72,13 @@ export default class MatchesService {
       return { message: 'Algo deu errado', code: 400 };
     }
   }
+
+  public async editScore(id: number, homeTeamGoals: number, awayTeamGoals: number) {
+    try {
+      await this.model.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+      return { message: 'Placar Atualizado', code: 200 };
+    } catch (e) {
+      return { message: 'Algo deu errado', code: 400 };
+    }
+  }
 }

@@ -28,8 +28,14 @@ export default class MatchesController {
 
   public endMatch = async (req: Request, res: Response) => {
     const { id } = req.params;
-    console.log(id);
     const result = await this.matchsService.endMatch(+id);
+    return res.status(result.code).json(result.message);
+  };
+
+  public editScore = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+    const result = await this.matchsService.editScore(+id, homeTeamGoals, awayTeamGoals);
     return res.status(result.code).json(result.message);
   };
 }

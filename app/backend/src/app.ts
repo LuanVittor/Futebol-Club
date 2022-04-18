@@ -23,6 +23,7 @@ class App {
     this.app.get('/matches', matchesController.AllMatches);
     this.app.post('/matches', hasToken, matchesController.createMatch);
     this.app.patch('/matches/:id/finish', matchesController.endMatch);
+    this.app.patch('/match/:id');
   }
 
   private config():void {
