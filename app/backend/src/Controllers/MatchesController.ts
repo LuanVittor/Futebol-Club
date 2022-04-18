@@ -25,4 +25,11 @@ export default class MatchesController {
     if (result.error) return res.status(result.code).json(result.error);
     return res.status(201).json(result.result);
   };
+
+  public endMatch = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    console.log(id);
+    const result = await this.matchsService.endMatch(+id);
+    return res.status(result.code).json(result.message);
+  };
 }

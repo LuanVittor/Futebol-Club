@@ -63,4 +63,13 @@ export default class MatchesService {
       return { error: { message: 'There is no team with such id!' }, code: 404 };
     }
   }
+
+  public async endMatch(id: number) {
+    try {
+      await this.model.update({ inProgress: 0 }, { where: { id } });
+      return { message: 'Partida Finalizada', code: 200 };
+    } catch (e) {
+      return { message: 'Algo deu errado', code: 400 };
+    }
+  }
 }
