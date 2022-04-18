@@ -17,7 +17,7 @@ class App {
     this.app = express();
     this.config();
     this.app.post('/login', validLogin, userController.Login);
-    this.app.get('/login/validate', hasToken);
+    this.app.get('/login/validate', hasToken, userController.getRole);
     this.app.get('/teams', teamController.getAllTeams);
     this.app.get('/teams/:id', teamController.getTeamById);
     this.app.get('/matches', matchesController.AllMatches);
