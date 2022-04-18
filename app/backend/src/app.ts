@@ -21,6 +21,7 @@ class App {
     this.app.get('/teams', teamController.getAllTeams);
     this.app.get('/teams/:id', teamController.getTeamById);
     this.app.get('/matches', matchesController.AllMatches);
+    this.app.post('/matches', hasToken, matchesController.createMatch);
   }
 
   private config():void {
