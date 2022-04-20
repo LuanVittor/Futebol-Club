@@ -18,10 +18,12 @@ export default class LeaderboardService {
     const finishedMatches = await this.matchsService.MatchesByProgress('false');
     const treatedMatches = finishedMatches.map((elem) => elem.get({ plain: true })); // para remover datavalues e etc
 
+    const typeOfFilter = { home: true, away: true };
+
     treatedMatches.forEach((elem: IMatches) => {
-      if (elem.homeTeamGoals > elem.awayTeamGoals) return homeWin(elem, arrWIthTeams, true, true);
-      if (elem.homeTeamGoals === elem.awayTeamGoals) return tied(elem, arrWIthTeams, true, true);
-      if (elem.homeTeamGoals < elem.awayTeamGoals) return awayWin(elem, arrWIthTeams, true, true);
+      if (elem.homeTeamGoals > elem.awayTeamGoals) return homeWin(elem, arrWIthTeams, typeOfFilter);
+      if (elem.homeTeamGoals === elem.awayTeamGoals) return tied(elem, arrWIthTeams, typeOfFilter);
+      if (elem.homeTeamGoals < elem.awayTeamGoals) return awayWin(elem, arrWIthTeams, typeOfFilter);
     });
 
     return sortTable(arrWIthTeams);
@@ -35,10 +37,12 @@ export default class LeaderboardService {
     const finishedMatches = await this.matchsService.MatchesByProgress('false');
     const treatedMatches = finishedMatches.map((elem) => elem.get({ plain: true })); // para remover datavalues e etc
 
+    const typeOfFilter = { home: true, away: false };
+
     treatedMatches.forEach((elem: IMatches) => {
-      if (elem.homeTeamGoals > elem.awayTeamGoals) return homeWin(elem, arrWIthTeams, true, false);
-      if (elem.homeTeamGoals === elem.awayTeamGoals) return tied(elem, arrWIthTeams, true, false);
-      if (elem.homeTeamGoals < elem.awayTeamGoals) return awayWin(elem, arrWIthTeams, true, false);
+      if (elem.homeTeamGoals === elem.awayTeamGoals) return tied(elem, arrWIthTeams, typeOfFilter);
+      if (elem.homeTeamGoals > elem.awayTeamGoals) return homeWin(elem, arrWIthTeams, typeOfFilter);
+      if (elem.homeTeamGoals < elem.awayTeamGoals) return awayWin(elem, arrWIthTeams, typeOfFilter);
     });
     return sortTable(arrWIthTeams);
   }
@@ -51,10 +55,12 @@ export default class LeaderboardService {
     const finishedMatches = await this.matchsService.MatchesByProgress('false');
     const treatedMatches = finishedMatches.map((elem) => elem.get({ plain: true })); // para remover datavalues e etc
 
+    const typeOfFilter = { home: false, away: true };
+
     treatedMatches.forEach((elem: IMatches) => {
-      if (elem.homeTeamGoals > elem.awayTeamGoals) return homeWin(elem, arrWIthTeams, false, true);
-      if (elem.homeTeamGoals === elem.awayTeamGoals) return tied(elem, arrWIthTeams, false, true);
-      if (elem.homeTeamGoals < elem.awayTeamGoals) return awayWin(elem, arrWIthTeams, false, true);
+      if (elem.homeTeamGoals > elem.awayTeamGoals) return homeWin(elem, arrWIthTeams, typeOfFilter);
+      if (elem.homeTeamGoals < elem.awayTeamGoals) return awayWin(elem, arrWIthTeams, typeOfFilter);
+      if (elem.homeTeamGoals === elem.awayTeamGoals) return tied(elem, arrWIthTeams, typeOfFilter);
     });
     return sortTable(arrWIthTeams);
   }
