@@ -1,4 +1,3 @@
-// import { ResultSetHeader } from 'mysql2/promise';
 import IMatches from '../interfaces/IMatches';
 import Teams from '../database/models/Teams';
 import ICreateMatch from '../interfaces/ICreateMatch';

@@ -10,6 +10,7 @@ export default class MatchesController {
     if (progress !== undefined) {
       const progressString = String(progress);
       const result = await this.matchsService.MatchesByProgress(progressString);
+      console.log(result);
       return res.status(200).json(result);
     }
 

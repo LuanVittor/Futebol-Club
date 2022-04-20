@@ -1,5 +1,6 @@
 import bodyParser = require('body-parser');
 import * as express from 'express';
+import LeaderboardController from './Controllers/LeaderboardController';
 import MatchesController from './Controllers/MatchesController';
 import TeamController from './Controllers/TeamsController';
 import UserController from './Controllers/UserController';
@@ -9,6 +10,7 @@ import hasToken from './middlewares/validateToken';
 const userController = new UserController();
 const teamController = new TeamController();
 const matchesController = new MatchesController();
+const leaderboardController = new LeaderboardController();
 
 class App {
   public app: express.Express;
@@ -24,6 +26,7 @@ class App {
     this.app.post('/matches', hasToken, matchesController.createMatch);
     this.app.patch('/matches/:id', matchesController.editScore);
     this.app.patch('/matches/:id/finish', matchesController.endMatch);
+    this.app.get('/leaderboard/home', leaderboardController.makeLeaderboard);
   }
 
   private config():void {
