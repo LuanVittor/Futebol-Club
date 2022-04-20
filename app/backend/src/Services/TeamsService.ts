@@ -6,7 +6,7 @@ export default class TeamService {
 
   public async getTeams(): Promise<ITeams[]> {
     const result = await this.model.findAll({
-      raw: true,
+      raw: true, // para nao retornar coisas que nao quero
       attributes: ['id', ['team_name', 'teamName']], // dois parametros no segundo array eh equivalente ao alias (as:)
     });
     return result;

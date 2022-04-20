@@ -24,8 +24,6 @@ export default class LeaderboardService {
       if (elem.homeTeamGoals < elem.awayTeamGoals) return awayTeamWin(elem, arrayWIthTeams);
     });
 
-    const sortedLeaderboard = sortTable(arrayWIthTeams);
-
-    return sortedLeaderboard;
+    return sortTable(arrayWIthTeams);
   }
 }
