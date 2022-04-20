@@ -8,4 +8,14 @@ export default class LeaderboardController {
     const result = await this.leaderboardService.makeLeaderboard();
     return res.status(200).json(result);
   };
+
+  public makeHomeLeaderboard = async (_req: Request, res: Response) => {
+    const result = await this.leaderboardService.makeHomeLeaderboard();
+    return res.status(200).json(result);
+  };
+
+  public makeAwayLeaderboard = async (_req: Request, res: Response) => {
+    const result = await this.leaderboardService.makeAwayLeaderboard();
+    return res.status(200).json(result);
+  };
 }

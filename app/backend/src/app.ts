@@ -27,6 +27,8 @@ class App {
     this.app.patch('/matches/:id', matchesController.editScore);
     this.app.patch('/matches/:id/finish', matchesController.endMatch);
     this.app.get('/leaderboard', leaderboardController.makeLeaderboard);
+    this.app.get('/leaderboard/home', leaderboardController.makeHomeLeaderboard);
+    this.app.get('/leaderboard/away', leaderboardController.makeAwayLeaderboard);
   }
 
   private config():void {

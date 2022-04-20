@@ -1,72 +1,72 @@
 import IMatches from '../interfaces/IMatches';
 import ILeaderboard from '../interfaces/Leaderboard';
 
-const homeTeamWin = (lastMatch: IMatches, teamArr: ILeaderboard[]) => teamArr.forEach((team) => {
+const homeWin = (ltsGame: IMatches, tmArr: ILeaderboard[], home: boolean, away: boolean) => tmArr.forEach((team) => { // tm = team && lts latest (lint nao deixa lenght)
   const oldStats = team;
 
-  if (team.name === lastMatch.teamHome.teamName) {
+  if (home === true && team.name === ltsGame.teamHome.teamName) {
     oldStats.totalPoints += 3;
     oldStats.totalGames += 1;
     oldStats.totalVictories += 1;
-    oldStats.goalsFavor += lastMatch.homeTeamGoals;
-    oldStats.goalsOwn += lastMatch.awayTeamGoals;
-    oldStats.goalsBalance += lastMatch.homeTeamGoals - lastMatch.awayTeamGoals;
+    oldStats.goalsFavor += ltsGame.homeTeamGoals;
+    oldStats.goalsOwn += ltsGame.awayTeamGoals;
+    oldStats.goalsBalance += ltsGame.homeTeamGoals - ltsGame.awayTeamGoals;
     oldStats.efficiency = +((oldStats.totalPoints / (oldStats.totalGames * 3)) * 100).toFixed(2);
   }
-  if (team.name === lastMatch.teamAway.teamName) {
+  if (away === true && team.name === ltsGame.teamAway.teamName) {
     oldStats.totalGames += 1;
     oldStats.totalLosses += 1;
-    oldStats.goalsFavor += lastMatch.awayTeamGoals;
-    oldStats.goalsOwn += lastMatch.homeTeamGoals;
-    oldStats.goalsBalance += lastMatch.awayTeamGoals - lastMatch.homeTeamGoals;
+    oldStats.goalsFavor += ltsGame.awayTeamGoals;
+    oldStats.goalsOwn += ltsGame.homeTeamGoals;
+    oldStats.goalsBalance += ltsGame.awayTeamGoals - ltsGame.homeTeamGoals;
     oldStats.efficiency = +((oldStats.totalPoints / (oldStats.totalGames * 3)) * 100).toFixed(2);
   }
 });
 
-const tiedGame = (lastMatch: IMatches, teamArr: ILeaderboard[]) => teamArr.forEach((team) => {
+const tied = (ltsGame: IMatches, tmArr: ILeaderboard[], home: boolean, away: boolean) => tmArr.forEach((team) => {
   const oldStats = team;
 
-  if (team.name === lastMatch.teamHome.teamName) {
+  if (home === true && team.name === ltsGame.teamHome.teamName) {
     oldStats.totalPoints += 1;
     oldStats.totalGames += 1;
     oldStats.totalDraws += 1;
-    oldStats.goalsFavor += lastMatch.homeTeamGoals;
-    oldStats.goalsOwn += lastMatch.awayTeamGoals;
-    oldStats.goalsBalance += lastMatch.homeTeamGoals - lastMatch.awayTeamGoals;
+    oldStats.goalsFavor += ltsGame.homeTeamGoals;
+    oldStats.goalsOwn += ltsGame.awayTeamGoals;
+    oldStats.goalsBalance += ltsGame.homeTeamGoals - ltsGame.awayTeamGoals;
     oldStats.efficiency = +((oldStats.totalPoints / (oldStats.totalGames * 3)) * 100).toFixed(2);
-  } if (team.name === lastMatch.teamAway.teamName) {
+  } if (away === true && team.name === ltsGame.teamAway.teamName) {
     oldStats.totalPoints += 1;
     oldStats.totalGames += 1;
     oldStats.totalDraws += 1;
-    oldStats.goalsFavor += lastMatch.awayTeamGoals;
-    oldStats.goalsOwn += lastMatch.homeTeamGoals;
-    oldStats.goalsBalance += lastMatch.awayTeamGoals - lastMatch.homeTeamGoals;
+    oldStats.goalsFavor += ltsGame.awayTeamGoals;
+    oldStats.goalsOwn += ltsGame.homeTeamGoals;
+    oldStats.goalsBalance += ltsGame.awayTeamGoals - ltsGame.homeTeamGoals;
     oldStats.efficiency = +((oldStats.totalPoints / (oldStats.totalGames * 3)) * 100).toFixed(2);
   }
 });
 
-const awayTeamWin = (lastMatch: IMatches, teamArr: ILeaderboard[]) => teamArr.forEach((team) => {
+const awayWin = (ltsGame: IMatches, tmArr: ILeaderboard[], home: boolean, away: boolean) => tmArr.forEach((team) => {
   const oldStats = team;
 
-  if (team.name === lastMatch.teamHome.teamName) {
+  if (home === true && team.name === ltsGame.teamHome.teamName) {
     oldStats.totalGames += 1;
     oldStats.totalLosses += 1;
-    oldStats.goalsFavor += lastMatch.homeTeamGoals;
-    oldStats.goalsOwn += lastMatch.awayTeamGoals;
-    oldStats.goalsBalance += lastMatch.homeTeamGoals - lastMatch.awayTeamGoals;
+    oldStats.goalsFavor += ltsGame.homeTeamGoals;
+    oldStats.goalsOwn += ltsGame.awayTeamGoals;
+    oldStats.goalsBalance += ltsGame.homeTeamGoals - ltsGame.awayTeamGoals;
     oldStats.efficiency = +((oldStats.totalPoints / (oldStats.totalGames * 3)) * 100).toFixed(2);
-  } if (team.name === lastMatch.teamAway.teamName) {
+  } if (away === true && team.name === ltsGame.teamAway.teamName) {
     oldStats.totalPoints += 3;
     oldStats.totalGames += 1;
     oldStats.totalVictories += 1;
-    oldStats.goalsFavor += lastMatch.awayTeamGoals;
-    oldStats.goalsOwn += lastMatch.homeTeamGoals;
-    oldStats.goalsBalance += lastMatch.awayTeamGoals - lastMatch.homeTeamGoals;
+    oldStats.goalsFavor += ltsGame.awayTeamGoals;
+    oldStats.goalsOwn += ltsGame.homeTeamGoals;
+    oldStats.goalsBalance += ltsGame.awayTeamGoals - ltsGame.homeTeamGoals;
     oldStats.efficiency = +((oldStats.totalPoints / (oldStats.totalGames * 3)) * 100).toFixed(2);
   }
 });
 export {
-  homeTeamWin,
-  tiedGame,
-  awayTeamWin,
+  homeWin,
+  tied,
+  awayWin,
 };
