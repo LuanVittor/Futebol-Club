@@ -18,7 +18,7 @@ export default class LeaderboardService {
     const finishedMatches = await this.matchsService.MatchesByProgress('false');
     const treatedMatches = finishedMatches.map((elem) => elem.get({ plain: true })); // para remover datavalues e etc
 
-    const typeOfFilter = { home: true, away: true };
+    const typeOfFilter = { home: true, away: true }; // para definir em qual condicao entrara na formacao
 
     treatedMatches.forEach((elem: IMatches) => {
       if (elem.homeTeamGoals > elem.awayTeamGoals) return homeWin(elem, arrWIthTeams, typeOfFilter);

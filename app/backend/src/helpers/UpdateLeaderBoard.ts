@@ -5,8 +5,10 @@ interface Iobj {
   home: boolean;
   away: boolean;
 }
-
-const homeWin = (ltsGame: IMatches, tmArr: ILeaderboard[], obj: Iobj) => tmArr.forEach((team) => { // tm = team && lts latest (lint nao deixa lenght)
+// tm = team && lts latest (lint nao deixa lenght)
+// obj eh usado para passar que tipo de tabela quero gerar
+// estava usando dois parametros mas o lint reclama do tamanho da linha
+const homeWin = (ltsGame: IMatches, tmArr: ILeaderboard[], obj: Iobj) => tmArr.forEach((team) => {
   const oldStats = team;
 
   if (obj.home === true && team.name === ltsGame.teamHome.teamName) {
