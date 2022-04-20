@@ -26,7 +26,7 @@ class App {
     this.app.post('/matches', hasToken, matchesController.createMatch);
     this.app.patch('/matches/:id', matchesController.editScore);
     this.app.patch('/matches/:id/finish', matchesController.endMatch);
-    this.app.get('/leaderboard/home', leaderboardController.makeLeaderboard);
+    this.app.get('/leaderboard', leaderboardController.makeLeaderboard);
   }
 
   private config():void {
