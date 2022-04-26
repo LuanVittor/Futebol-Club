@@ -8,7 +8,12 @@ import { Response } from 'superagent';
 
 import User from '../database/models/User'
 
-import { UsersMOcked } from './mocks'
+import { leaderboardAwayMocked, leaderboardHomeMocked, LeaderboardMocked, TeamsMocked, UsersMOcked } from './mocks'
+import Teams from '../database/models/Teams';
+import LeaderboardService from '../Services/LeaderboardService';
+import ILeaderboard from '../interfaces/Leaderboard';
+
+const leaderboardService =  new LeaderboardService()
 
 chai.use(chaiHttp);
 
@@ -56,7 +61,7 @@ describe('Rotas de login', () => {
 
     it('Nao permite senha com menos de 6 caracteres', async () => {
       chaiHttpResponse = await chai.request(app).post('/login').send({
-        email: UsersMOcked[0].email,
+        email: 'naoexiste@noDataBase.com',
         password: UsersMOcked[1].password, 
       });
 
@@ -110,7 +115,109 @@ describe('Rotas de login', () => {
       .set({ authorization: 'Qualquer.Token' });
 
       expect(chaiHttpResponse).to.have.status(401);
-      expect(chaiHttpResponse.body.error).to.be.equal('Invalid token');
+      expect(chaiHttpResponse.body.error).to.be.equal('Expired or invalid token');
     });
   });
 });
+
+
+describe('Rotas de Teams', () => {
+  let chaiHttpResponse: Response;
+
+  describe('find all teams', () => {
+    before(async () => {
+      sinon.stub(Teams, 'findAll').resolves(TeamsMocked as Teams[]);
+    });
+
+    after(() => {
+      (Teams.findAll as sinon.SinonStub).restore();
+    });
+
+    it('retorna um array com todos os times', async () => {
+      chaiHttpResponse = await chai.request(app).get('/teams')
+
+      expect(chaiHttpResponse).to.have.status(200);
+      expect(chaiHttpResponse.body[0]).to.be.keys('id', 'teamName');
+      expect(chaiHttpResponse.body[1]).to.be.keys('id', 'teamName');
+      expect(chaiHttpResponse.body[2]).to.be.keys('id', 'teamName');
+    });
+  });
+})
+
+describe('findOne expecifiqy team:', () => {
+  let chaiHttpResponse: Response;
+
+  before(async () => {
+    sinon.stub(Teams, 'findOne').resolves(TeamsMocked[0] as Teams); 
+  });
+
+  after(() => {
+    (Teams.findOne as sinon.SinonStub).restore();
+  });
+
+  it('FIltra um time pelo seu id', async () => {
+    chaiHttpResponse = await chai.request(app).get('/teams/1')
+
+    expect(chaiHttpResponse).to.have.status(200);
+    expect(chaiHttpResponse.body).to.be.keys('id', 'teamName');
+    expect(chaiHttpResponse.body.id).to.be.equal(1);
+  });
+});
+
+
+describe('/leaderboards', () => {
+  let chaiHttpResponse: Response;
+
+  describe('faz a tabela de classificacao', () => {
+    before(async () => {
+      sinon.stub(leaderboardService, 'makeLeaderboard').resolves(LeaderboardMocked as ILeaderboard[]);
+    });
+
+    after(() => {
+      (leaderboardService.makeLeaderboard as sinon.SinonStub).restore();
+    });
+
+    it('faz a tabela de classificacao geral', async () => {
+      chaiHttpResponse = await chai.request(app).get('/leaderboard')
+
+      expect(chaiHttpResponse).to.have.status(200);
+      expect(chaiHttpResponse.body[1]).to.be.keys('name', 'totalPoints', 'totalGames', 'totalVictories', 'totalDraws', 'totalLosses', 'goalsFavor', 'goalsFavor', 'goalsBalance', 'efficiency'); 
+      
+    });
+  });
+
+  describe('faz a tabela de classificacao de jogos em casa', () => {
+    before(async () => {
+      sinon.stub(leaderboardService, 'makeHomeLeaderboard').resolves(leaderboardHomeMocked as ILeaderboard[]);
+    });
+
+    after(() => {
+      (leaderboardService.makeHomeLeaderboard as sinon.SinonStub).restore();
+    });
+
+    it('4.2.1) Retorna a classificação do torneio, apenas considerando pontos obtidos em casa.', async () => {
+      chaiHttpResponse = await chai.request(app).get('/leaderboard/home')
+
+      expect(chaiHttpResponse).to.have.status(200);
+      expect(chaiHttpResponse.body[1]).to.be.keys('name', 'totalPoints', 'totalGames', 'totalVictories', 'totalDraws', 'totalLosses', 'goalsFavor', 'goalsFavor', 'goalsBalance', 'efficiency');
+    });
+  });
+
+  describe('faz a tabela de classificacao de jogos fora de casa', () => {
+    before(async () => {
+      sinon.stub(leaderboardService, 'makeAwayLeaderboard').resolves(leaderboardAwayMocked as ILeaderboard[]);
+    });
+
+    after(() => {
+      (leaderboardService.makeAwayLeaderboard as sinon.SinonStub).restore();
+    });
+
+    it('faz a tabela de classificacao de jogos em casa', async () => {
+      chaiHttpResponse = await chai.request(app).get('/leaderboard/away')
+
+      expect(chaiHttpResponse).to.have.status(200);
+      expect(chaiHttpResponse.body[1]).to.be.keys('name', 'totalPoints', 'totalGames', 'totalVictories', 'totalDraws', 'totalLosses', 'goalsFavor', 'goalsFavor', 'goalsBalance', 'efficiency');
+    });
+  });
+
+}); 
