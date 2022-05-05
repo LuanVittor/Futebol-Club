@@ -1,4 +1,4 @@
-# Trybe Futebol Club
+# Futebol Club
 
 O projeto consiste em um site informativo sobre partidas e classificações do Futebol Brasileiro!
 
